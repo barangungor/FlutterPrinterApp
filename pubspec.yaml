@@ -24,10 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  esc_pos_bluetooth: ^0.2.8
-  intl: ^0.16.1
   oktoast: ^2.3.2
-  flutter_blue: ^0.7.2
+  flutter_inappwebview: ^4.0.0+4
+  http: ^0.12.2
+  web_socket_channel: ^1.1.0
+  connectivity: ^2.0.2
 
 
 
