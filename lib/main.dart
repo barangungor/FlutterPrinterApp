@@ -105,60 +105,44 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: webview == true
-          ? Column(
-              children: [
-                Container(
-                  height: 500,
-                  child: InAppWebView(
-                    onWebViewCreated: (controller) {
-                      webViewController = controller;
-                      webViewController.loadData(
-                          data: '<h1>ÖDEME SAYFASI</h1>');
-                    },
-                  ),
-                )
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Form(
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: InputDecoration(labelText: 'Send a message'),
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('Gönder'),
-                  onPressed: () {
-                    _sendMessage();
-                  },
-                ),
-                netConnection == true
-                    ? StreamBuilder(
-                        stream: channel.stream,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.active &&
-                              connection == false) {
-                            channel.sink.add(json.encode({
-                              "signalName": 'openConnection',
-                              "connectionId": '10'
-                            }));
-                            connection = true;
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 24.0),
-                            child: Text(snapshot.hasData
-                                ? '${json.decode(snapshot.data)['message']}'
-                                : ''),
-                          );
-                        },
-                      )
-                    : Text('Internet Bağlantınızı Kontrol Ediniz..')
-              ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Form(
+            child: TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(labelText: 'Send a message'),
             ),
+          ),
+          RaisedButton(
+            child: Text('Gönder'),
+            onPressed: () {
+              _sendMessage();
+            },
+          ),
+          netConnection == true
+              ? StreamBuilder(
+                  stream: channel.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active &&
+                        connection == false) {
+                      channel.sink.add(json.encode({
+                        "signalName": 'openConnection',
+                        "connectionId": '10'
+                      }));
+                      connection = true;
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(snapshot.hasData
+                          ? '${json.decode(snapshot.data)['message']}'
+                          : ''),
+                    );
+                  },
+                )
+              : Text('Internet Bağlantınızı Kontrol Ediniz..')
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -173,8 +157,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   _sendMessage() {
     // if (_controller.text.isNotEmpty) {
 
-    channel.sink
-        .add(json.encode({"signalName": 'exitSession', "connectionId": '10'}));
+    // channel.sink
+    //     .add(json.encode({"signalName": 'exitSession', "connectionId": '10'}));
     // }
   }
 }
